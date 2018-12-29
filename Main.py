@@ -16,6 +16,13 @@ async def change_status():
     await bot.change_presence(game=discord.Game(name=current_status))
     await asyncio.sleep(5)
     
+@bot.event
+async def on_ready():
+	print('Logged in as')
+	print("User name:", bot.user.name)
+	print("User id:", bot.user.id)
+	print('---------------')
+    
 @bot.command(pass_context=True)
 async def ping(ctx):
     """Pings the bot and gets a response time."""
