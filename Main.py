@@ -4,7 +4,7 @@ import asyncio
 from itertools import cycle
 import os
 
-bot = commands.bot(command_prefix = "m.")
+bot = commands.Bot(command_prefix=("m."))
 status = ["testing the bot", "m.help"]
 
 async def change_status():
