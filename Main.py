@@ -32,5 +32,15 @@ async def ping(ctx):
     ping = (time.time() - pingtime) * 1000
     await bot.edit_message(pingms, "Pong! :ping_pong: ping time is `%dms`" % ping)
     
+@bot.command(pass_context=True)
+async def join(ctx):
+	channel = ctx.message.author.voice.voice_channel
+	await bot.join_voice_channel(channel)
+	
+@bot.command(pass_context=True)
+async def leave(ctx):
+	server = ctx.message.server
+	voice_client = bot.voice_client_in(server)
+	
 bot.loop.create_task(change_status())
 bot.run(os.environ['BOT_TOKEN'])
