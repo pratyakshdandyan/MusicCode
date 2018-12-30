@@ -38,9 +38,9 @@ async def join(ctx):
 	await bot.join_voice_channel(channel)
 	
 @bot.command(pass_context=True)
-async def leave(ctx):
-	server = ctx.message.server
-	await bot.voice_client_in(server).disconnect()
+async def leave(con):
+	if bot.is_voice_connected(con.message.server) == True:
+		await bot.voice_client_in(con.message.server).disconnect()
 	
 bot.loop.create_task(change_status())
 bot.run(os.environ['BOT_TOKEN'])
