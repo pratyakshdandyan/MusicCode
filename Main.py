@@ -17,6 +17,8 @@ async def change_status():
     await client.change_presence(game=discord.Game(name=current_status))
     await asyncio.sleep(5)
     
+player = {}	
+
 @client.event
 async def on_ready():
 	print('Logged in as')
@@ -42,6 +44,14 @@ async def leave(ctx):
 	server = ctx.message.server
 	voice_client = client.voice_client_in(server)
 	await voice_client.disconnect()
+	
+@client.command(pass_context=True)
+async def play(ctx, url):
+	server = ctx.message.server
+	voice_client = client.voice_client_in(server)
+	player = await voice_client.create_ytdl_player(url)
+	player[server.id] = player
+	player.start()
 	
 client.loop.create_task(change_status())
 client.run(os.environ['BOT_TOKEN'])
