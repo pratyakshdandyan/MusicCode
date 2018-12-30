@@ -40,7 +40,7 @@ async def join(ctx):
 @bot.command(pass_context=True)
 async def leave(ctx):
 	server = ctx.message.server
-	voice_client = bot.voice_client_in(server)
+	await bot.voice_client_in(ctx.message.server).disconnect()
 	
 bot.loop.create_task(change_status())
 bot.run(os.environ['BOT_TOKEN'])
