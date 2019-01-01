@@ -78,5 +78,4 @@ async def leave(ctx):
 	await voice_client.disconnect()
 	await client.say('I left the voice channel')
 	
-client.loop.create_task(change_status())
 client.run(os.environ['BOT_TOKEN'])
