@@ -2,12 +2,10 @@ import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
-import time
-import random
 from itertools import cycle
 import os
 import bs4, requests
-from time import gmtime, strftime
+import time
 from discord import opus
 import youtube_dl
 
