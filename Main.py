@@ -32,19 +32,9 @@ async def on_ready():
     print("User name:", client.user.name)
     print("User id:", client.user.id)
     print('---------------')
+
 @client.event
 async def on_message(message):
-  if message.content == 'm.skip':
-      serverid = message.server.id
-      players[serverid].stop()
-  if message.content == 'm.pause':
-      serverid = message.server.id
-      players[serverid].pause()
-      await client.send_message(message.channel, "Player paused")
-  if message.content == 'm.resume':
-      serverid = message.server.id
-      players[serverid].resume()
-      await client.send_message(message.channel, "Player resumed")
   if message.content.startswith('m.play '):
       author = message.author
       name = message.content.replace("m.play ", '')                 
@@ -65,6 +55,7 @@ async def on_message(message):
       print("User: {} From Server: {} is playing {}".format(author, server, title))
       player.start()
   await client.process_commands(message)
+
 @client.command(pass_context=True)
 async def ping(ctx):
     pingtime = time.time()
@@ -84,5 +75,23 @@ async def leave(ctx):
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
     await client.say('Left voice channel')
+	
+@client.command(pass_context=True)
+async def skip(ctx):
+	serverid = message.server.id
+	players[serverid].stop()
+	await client.say('music have been skip')
+	
+@client.command(pass_context=True)
+async def pause(ctx):
+	serverid = message.server.id
+	players[serverid].pause()
+	await client.say("Player paused")
+	
+@client.command(pass_context=True)
+async def resume(ctx):
+	serverid = message.server.id
+	players[serverid].resume()
+	await client.say("Player resumed")
 	
 client.run(os.environ['BOT_TOKEN'])
