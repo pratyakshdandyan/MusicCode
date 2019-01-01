@@ -14,11 +14,11 @@ status = ["testing the bot", "m.help"]
 async def change_status():
 	await client.wait_until_ready()
 	msgs = cycle(status)
-  
-while not client.is_closed:
-	current_status = next(msgs)
-	await client.change_presence(game=discord.Game(name=current_status))
-	await asyncio.sleep(5)
+	
+	while not client.is_closed:
+		current_status = next(msgs)
+		await client.change_presence(game=discord.Game(name=current_status))
+		await asyncio.sleep(5)
     
 players = {}	
 
@@ -28,6 +28,7 @@ async def on_ready():
 	print("User name:", client.user.name)
 	print("User id:", client.user.id)
 	print('---------------')
+	
 @client.event
 async def on_message(message):
   if message.content == 'm.skip':
@@ -61,6 +62,7 @@ async def on_message(message):
       print("User: {} From Server: {} is playing {}".format(author, server, title))
       player.start()
   await client.process_commands(message)
+
 @client.command(pass_context=True)
 async def ping(ctx):
     pingtime = time.time()
