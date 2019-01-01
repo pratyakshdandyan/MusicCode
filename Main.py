@@ -5,23 +5,33 @@ import asyncio
 import time
 import random
 from discord import Game
+from itertools import cycle
 import json
 import os
 import bs4, requests
 from time import gmtime, strftime
 from discord import opus
 import youtube_dl
-
 client = commands.Bot(command_prefix=("m."))
+status = ["testing the bot", "m.help"]
+
+async def change_status():
+  await client.wait_until_ready()
+  msgs = cycle(status)
+  
+  while not client.is_closed:
+    current_status = next(msgs)
+    await client.change_presence(game=discord.Game(name=current_status))
+    await asyncio.sleep(5)
     
-player = {}	
+players = {}	
 
 @client.event
 async def on_ready():
-	print('Logged in as')
-	print("User name:", client.user.name)
-	print("User id:", client.user.id)
-	print('---------------')
+    print('Logged in as')
+    print("User name:", client.user.name)
+    print("User id:", client.user.id)
+    print('---------------')
 @client.event
 async def on_message(message):
   if message.content == 'm.skip':
@@ -55,10 +65,8 @@ async def on_message(message):
       print("User: {} From Server: {} is playing {}".format(author, server, title))
       player.start()
   await client.process_commands(message)
-
 @client.command(pass_context=True)
 async def ping(ctx):
-    """Pings the bot and gets a response time."""
     pingtime = time.time()
     pingms = await client.say("Pinging...")
     ping = (time.time() - pingtime) * 1000
@@ -66,15 +74,15 @@ async def ping(ctx):
     
 @client.command(pass_context=True)
 async def join(ctx):
-	channel = ctx.message.author.voice.voice_channel
-	await client.join_voice_channel(channel)
-	await client.say('Connected to voice channel: **[' + str(channel) + ']**')
+    channel = ctx.message.author.voice.voice_channel
+    await client.join_voice_channel(channel)
+    await client.say('Connected to voice channel: **[' + str(channel) + ']**')
 	
 @client.command(pass_context=True)
 async def leave(ctx):
-	server = ctx.message.server
-	voice_client = client.voice_client_in(server)
-	await voice_client.disconnect()
-	await client.say('I left the voice channel')
+    server = ctx.message.server
+    voice_client = client.voice_client_in(server)
+    await voice_client.disconnect()
+    await client.say('Left voice channel')
 	
 client.run(os.environ['BOT_TOKEN'])
