@@ -22,7 +22,6 @@ async def on_ready():
 	print("User name:", client.user.name)
 	print("User id:", client.user.id)
 	print('---------------')
-	
 @client.event
 async def on_message(message):
   if message.content == 'm.skip':
@@ -56,7 +55,7 @@ async def on_message(message):
       print("User: {} From Server: {} is playing {}".format(author, server, title))
       player.start()
   await client.process_commands(message)
-    
+
 @client.command(pass_context=True)
 async def ping(ctx):
     """Pings the bot and gets a response time."""
