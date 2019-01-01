@@ -12,13 +12,13 @@ client = commands.Bot(command_prefix=("m."))
 status = ["testing the bot", "m.help"]
 
 async def change_status():
-  await client.wait_until_ready()
-  msgs = cycle(status)
+	await client.wait_until_ready()
+	msgs = cycle(status)
   
-  while not client.is_closed:
-    current_status = next(msgs)
-    await client.change_presence(game=discord.Game(name=current_status))
-    await asyncio.sleep(5)
+while not client.is_closed:
+	current_status = next(msgs)
+	await client.change_presence(game=discord.Game(name=current_status))
+	await asyncio.sleep(5)
     
 players = {}	
 
