@@ -12,18 +12,9 @@ import bs4, requests
 from time import gmtime, strftime
 from discord import opus
 import youtube_dl
-client = commands.Bot(command_prefix=("m."))
-status = ["testing the bot", "m.help"]
 
-async def change_status():
-	await client.wait_until_ready()
-	msgs = cycle(status)
-	
-while not client.is_closed:
-	current_status = next(msgs)
-	await client.change_presence(game=discord.Game(name=current_status))
-	await asyncio.sleep(5)
-    
+client = commands.Bot(command_prefix=("m."))
+
 players = {}	
 
 @client.event
