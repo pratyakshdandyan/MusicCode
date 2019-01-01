@@ -1,13 +1,12 @@
 import discord
-from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 from itertools import cycle
 import os
 import bs4, requests
 import time
-from discord import opus
 import youtube_dl
+from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
 status = ["testing the bot", "m.help"]
@@ -23,12 +22,12 @@ async def change_status():
     
 players = {}	
 
-@client.event
+@client.event 
 async def on_ready():
-    print('Logged in as')
-    print("User name:", client.user.name)
-    print("User id:", client.user.id)
-    print('---------------')
+	print('Logged in as')
+	print("User name:", client.user.name)
+	print("User id:", client.user.id)
+	print('---------------')
 @client.event
 async def on_message(message):
   if message.content == 'm.skip':
