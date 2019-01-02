@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import asyncio
+import requests
 from itertools import cycle
 import os
 import time
