@@ -9,7 +9,7 @@ import youtube_dl
 from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
-status = ["testing the bot", "m.help"]
+status = ["testing the bot", "m.help", "created by noobperson"]
 
 async def change_status():
 	await client.wait_until_ready()
