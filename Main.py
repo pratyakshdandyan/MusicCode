@@ -3,7 +3,6 @@ from discord.ext import commands
 import asyncio
 from itertools import cycle
 import os
-import bs4, requests
 import time
 import youtube_dl
 from discord import opus
