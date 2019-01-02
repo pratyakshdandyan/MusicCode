@@ -10,6 +10,7 @@ from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
 status = ["testing the bot", "m.help"]
+
 async def change_status():
 	await client.wait_until_ready()
 	msgs = cycle(status)
