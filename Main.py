@@ -92,7 +92,12 @@ async def leave(ctx):
     channel = ctx.message.author.voice.voice_channel
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
-    await client.say("***Successfully disconnected*** {}".format(channel))
+    await client.say("Successfully disconnected from ***[{}]***".format(channel))
+
+@client.command()
+async def credits():
+	"""credits who helped me"""
+	await client.say('iHoverZz#2321 helped me with this music bot')
 	
 client.loop.create_task(change_status())
 client.run(os.environ['BOT_TOKEN'])
