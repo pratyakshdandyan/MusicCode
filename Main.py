@@ -18,7 +18,7 @@ async def change_status():
 	while not client.is_closed:
 		current_status = next(msgs)
 		await client.change_presence(game=discord.Game(name=current_status))
-		await asyncio.sleep(5)
+		await asyncio.sleep(4)
 
 players = {}	
 
@@ -31,9 +31,10 @@ async def on_ready():
 	
 @client.event
 async def on_message(message):
-  if message.content == 'm.skip':
+  if message.content == 'm.stop':
       serverid = message.server.id
       players[serverid].stop()
+      await client.send_message(message.channel, "Player stopped")
   if message.content == 'm.pause':
       serverid = message.server.id
       players[serverid].pause()
@@ -63,14 +64,14 @@ async def on_message(message):
       player.start()
   await client.process_commands(message)
 
-@client.command(pass_context=True)
+@client.command(pass_context=True, no_pm=True)
 async def ping(ctx):
     pingtime = time.time()
     pingms = await client.say("Pinging...")
     ping = (time.time() - pingtime) * 1000
     await client.edit_message(pingms, "Pong! :ping_pong: ping time is `%dms`" % ping)
 	
-@client.command(pass_context=True, no_pm=True)
+@client.command(pass_context=True, no_pm=True, hidden=True)
 async def playing(ctx):
     """Shows info about the currently played song."""
 
