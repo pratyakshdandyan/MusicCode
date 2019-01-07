@@ -93,7 +93,7 @@ async def leave(ctx):
     channel = ctx.message.author.voice.voice_channel
     voice_client = client.voice_client_in(server)
     if voice_client is None:
-		await client.say(":exclamation: ***I am not in a voice channel***)
+		await client.say(":exclamation: ***I am not in a voice channel***")
 				 return
 				 await voice_client.disconnect()
 				 await client.say("Successfully disconnected from ***[{}]***".format(channel))
