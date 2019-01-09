@@ -72,13 +72,13 @@ async def ping(ctx):
     ping = (time.time() - pingtime) * 1000
     await client.edit_message(pingms, "Pong! :ping_pong: ping time is `%dms`" % ping)
     
-@client.command(pass_context=True)
+@client.command(pass_context=True, no_pm=True)
 async def join(ctx):
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
     await client.say('Connected to voice channel: **[' + str(channel) + ']**')
 	
-@client.command(pass_context=True)
+@client.command(pass_context=True, no_pm=True)
 async def leave(ctx):
     server = ctx.message.server
     channel = ctx.message.author.voice.voice_channel
@@ -86,13 +86,13 @@ async def leave(ctx):
     await voice_client.disconnect()
     await client.say("Successfully disconnected from ***[{}]***".format(channel))
 
-@client.command()
+@client.command(no_pm=True)
 async def credits():
 	"""credits who helped me"""
 	await client.say('iHoverZz#2321 helped me with this music bot')
 	
 @client.command(pass_context=True, no_pm=True)
-async def helps(ctx):
+async def help(ctx):
 	embed = discord.Embed(title="Help section", description=" ", color=0xFFFF)
 	embed.add_field(name="m.join", value="make the bot join voice channel")
 	embed.add_field(name="m.leave", value="make the bot leave the voice channel")
