@@ -9,6 +9,7 @@ import youtube_dl
 from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
+client.remove_command("help")
 status = ["testing the bot", "m.help", "created by noobperson"]
 
 async def change_status():
@@ -89,6 +90,16 @@ async def leave(ctx):
 async def credits():
 	"""credits who helped me"""
 	await client.say('iHoverZz#2321 helped me with this music bot')
+	
+@client.command(pass_context=True, no_pm=True)
+async def helps(ctx):
+	embed = discord.Embed(title="Help section", description=" ", color=0xFFFF)
+	embed.add_field(name="m.join", value="make the bot join voice channel")
+	embed.add_field(name="m.leave", value="make the bot leave the voice channel")
+	embed.add_field(name="m.play", value="please be careful when using this command it will break if theres music playing.")
+	embed.add_field(name="m.credits", value="shows who helped me with this bot")
+	embed.add_field(name="m.ping", value="get bot's ping time")
+	await client.say(embed=embed)
 	
 client.loop.create_task(change_status())
 client.run(os.environ['BOT_TOKEN'])
