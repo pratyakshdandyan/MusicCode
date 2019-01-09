@@ -97,6 +97,7 @@ async def help(ctx):
 	embed.add_field(name="m.join", value="make the bot join voice channel")
 	embed.add_field(name="m.leave", value="make the bot leave the voice channel")
 	embed.add_field(name="m.play", value="please be careful when using this command it will break if theres music playing.")
+	embed.add_field(name="stop", value="to stop the music from playing")
 	embed.add_field(name="m.credits", value="shows who helped me with this bot")
 	embed.add_field(name="m.ping", value="get bot's ping time")
 	await client.say(embed=embed)
