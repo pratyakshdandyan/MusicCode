@@ -112,8 +112,7 @@ async def credits():
 
 @commands.command(aliases=['q'])
 async def queue(self, ctx, page: int=1):
-        """Fetch the queue"""
-        player = await client.lavalink.get_player(ctx.guild.id)
+	player = await client.lavalink.get_player(ctx.guild.id)
         shuf = 'ON' if player.shuffle else 'OFF'
         n_dur = lavalink.Utils.format_time(player.current.duration)
 
