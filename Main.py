@@ -97,7 +97,7 @@ async def play(ctx, *, name):
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
-async def queue(con):
+async def queue(ctx):
     await client.say("```There are currently {} audios in queue```".format(len(songs)))```
 
 @client.command(pass_context=True)
