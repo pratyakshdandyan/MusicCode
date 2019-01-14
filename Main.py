@@ -11,16 +11,6 @@ from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
 client.remove_command("help")
-status = ["m.help", "testing the bot", "created by noobperson"]
-
-async def change_status():
-	await client.wait_until_ready()
-	msgs = cycle(status)
-	
-	while not client.is_closed:
-		current_status = next(msgs)
-		await client.change_presence(game=discord.Game(name=current_status))
-		await asyncio.sleep(4)
 
 players = {}	
 
@@ -143,5 +133,4 @@ async def help(ctx):
 	embed.add_field(name="m.ping", value="get bot's ping time")
 	await client.say(embed=embed)
 	
-client.loop.create_task(change_status())
 client.run(os.environ['BOT_TOKEN'])
