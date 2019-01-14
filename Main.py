@@ -10,7 +10,7 @@ from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
 client.remove_command("help")
-status = ["testing the bot", "m.help", "created by noobperson"]
+status = ["m.help", "testing the bot", "created by noobperson"]
 
 async def change_status():
 	await client.wait_until_ready()
@@ -44,15 +44,8 @@ async def _join(ctx):
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully connected to voice channel:", value=channel)
     await client.say(embed=embed)
-
-@_join.error
-async def join_error(error, ctx):
-	if isinstance(error, discord.ext.commands.errors.CheckFailure):
-		text = "Sorry {}, You need DJ role..".format(ctx.message.author.mention)
-		await client.send_message(ctx.message.channel, text)
 	
 @client.command(name="leave", pass_context=True, no_pm=True)
-@commands.has_role(name="DJ")
 async def _leave(ctx):
     server = ctx.message.server
     channel = ctx.message.author.voice.voice_channel
@@ -61,12 +54,6 @@ async def _leave(ctx):
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully disconnected from:", value=channel)
     await client.say(embed=embed)
-
-@_leave.error
-async def leave_error(error, ctx):
-	if isinstance(error, discord.ext.commands.errors.CheckFailure):
-		text = "Sorry {}, You need DJ role.".format(ctx.message.author.mention)
-		await client.send_message(ctx.message.channel, text)
 
 @client.command(pass_context=True)
 async def pause(ctx):
@@ -108,12 +95,6 @@ async def _play(ctx, *, name):
 	embed = discord.Embed(description=" ")
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
-	
-@_play.error
-async def play_error(error, ctx):
-	if isinstance(error, discord.ext.commands.errors.CheckFailure):
-		text = "Sorry {}, You need DJ role.".format(ctx.message.author.mention)
-		await bot.send_message(ctx.message.channel, text)
 
 @client.command(pass_context=True)
 async def resume(ctx):
