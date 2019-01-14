@@ -95,6 +95,10 @@ async def play(ctx, *, name):
 	embed = discord.Embed(description=" ")
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
+	
+@client.command(pass_context=True)
+async def queue(con):
+    await client.say("```There are currently {} audios in queue```".format(len(songs)))```
 
 @client.command(pass_context=True)
 async def resume(ctx):
