@@ -74,7 +74,7 @@ async def stop(ctx):
     await client.say(embed=embed)
 	
 @client.command(pass_context=True)
-async def play(ctx):
+async def play(ctx, *, name):
 	author = message.author
 	name = message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
