@@ -6,6 +6,7 @@ from itertools import cycle
 import os
 import time
 import youtube_dl
+import inspect
 from discord import opus
 
 client = commands.Bot(command_prefix=("m."))
@@ -109,6 +110,25 @@ async def resume(ctx):
 async def credits():
 	"""credits who helped me"""
 	await client.say('iHoverZz#2321 helped me with this music bot')
+	
+def user_is_me(ctx):
+	return ctx.message.author.id == "277983178914922497"
+
+@client.command(name='eval', pass_context=True)
+@commands.check(user_is_me)
+async def _eval(ctx, *, command):
+    res = eval(command)
+    if inspect.isawaitable(res):
+        await client.say(await res)
+    else:
+    	await client.delete_message(ctx.message)
+    	await client.say(res)
+        
+@_eval.error
+async def eval_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You can't use this command only the bot owner can do this.".format(ctx.message.author.mention)
+		await client.send_message(ctx.message.channel, text)
 	
 @client.command(pass_context=True, no_pm=True)
 async def help(ctx):
