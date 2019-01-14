@@ -37,16 +37,23 @@ async def ping(ctx):
     ping = (time.time() - pingtime) * 1000
     await client.edit_message(pingms, "Pong! :ping_pong: ping time is `%dms`" % ping)
     
-@client.command(pass_context=True, no_pm=True)
-async def join(ctx):
+@client.command(name="join", pass_context=True, no_pm=True)
+async def _join(ctx):
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully connected to voice channel:", value=channel)
     await client.say(embed=embed)
+
+@_join.error
+async def join_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You need DJ role..".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)
 	
-@client.command(pass_context=True, no_pm=True)
-async def leave(ctx):
+@client.command(name="leave", pass_context=True, no_pm=True)
+@commands.has_role(name="DJ")
+async def _leave(ctx):
     server = ctx.message.server
     channel = ctx.message.author.voice.voice_channel
     voice_client = client.voice_client_in(server)
@@ -54,6 +61,12 @@ async def leave(ctx):
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully disconnected from:", value=channel)
     await client.say(embed=embed)
+
+@_leave.error
+async def leave_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You need DJ role.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)
 
 @client.command(pass_context=True)
 async def pause(ctx):
@@ -73,8 +86,8 @@ async def stop(ctx):
     embed.add_field(name="Player Stopped", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
-@client.command(pass_context=True)
-async def play(ctx, *, name):
+@client.command(name="play", pass_context=True)
+async def _play(ctx, *, name):
 	author = ctx.message.author
 	name = ctx.message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
@@ -95,6 +108,12 @@ async def play(ctx, *, name):
 	embed = discord.Embed(description=" ")
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
+	
+@_play.error
+async def play_error(error, ctx):
+	if isinstance(error, discord.ext.commands.errors.CheckFailure):
+		text = "Sorry {}, You need DJ role.".format(ctx.message.author.mention)
+		await bot.send_message(ctx.message.channel, text)
 
 @client.command(pass_context=True)
 async def resume(ctx):
