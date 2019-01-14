@@ -49,7 +49,7 @@ async def _join(ctx):
 async def join_error(error, ctx):
 	if isinstance(error, discord.ext.commands.errors.CheckFailure):
 		text = "Sorry {}, You need DJ role..".format(ctx.message.author.mention)
-		await bot.send_message(ctx.message.channel, text)
+		await client.send_message(ctx.message.channel, text)
 	
 @client.command(name="leave", pass_context=True, no_pm=True)
 @commands.has_role(name="DJ")
@@ -66,7 +66,7 @@ async def _leave(ctx):
 async def leave_error(error, ctx):
 	if isinstance(error, discord.ext.commands.errors.CheckFailure):
 		text = "Sorry {}, You need DJ role.".format(ctx.message.author.mention)
-		await bot.send_message(ctx.message.channel, text)
+		await client.send_message(ctx.message.channel, text)
 
 @client.command(pass_context=True)
 async def pause(ctx):
