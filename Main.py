@@ -109,6 +109,47 @@ async def resume(ctx):
 async def credits():
 	"""credits who helped me"""
 	await client.say('iHoverZz#2321 helped me with this music bot')
+
+@commands.command(aliases=['q'])
+async def queue(self, ctx, page: int=1):
+        """Fetch the queue"""
+        player = await client.lavalink.get_player(ctx.guild.id)
+        shuf = 'ON' if player.shuffle else 'OFF'
+        n_dur = lavalink.Utils.format_time(player.current.duration)
+
+        if not player.queue and player.is_playing:
+            embed = discord.Embed(title=f"Queue:", colour=rnd(self.colour), description=f"**Now:** [{player.current.title}]({player.current.uri}) `{n_dur}`")
+            embed.set_footer(text=f"Page 1 of 1 | Shuffle: {shuf}")
+            embed.timestamp = datetime.datetime.utcnow()
+            await ctx.send(embed=embed)
+        if not player.queue:
+            return await client.say("There's nothing left in the queue!")
+
+        else:
+
+            items_per_page = 11
+            pages = math.ceil(len(player.queue) / items_per_page)
+
+            start = (page - 1) * items_per_page
+            end = start + items_per_page
+
+            emoji = '- :repeat: \n' if player.repeat else '\n'
+
+            qlist = ''
+
+            q = len(player.queue)
+
+            for i, track in enumerate(player.queue[start:end], start=start):
+                if player.current.stream:
+                    dur = 'LIVE'
+                else:
+                    dur = lavalink.Utils.format_time(track.duration)
+                qlist += f'**{i + 1}:** [{track.title}]({track.uri}) `{dur}` {emoji}'
+
+            embed = discord.Embed(title=f"Queue ({q}):", colour=rnd(colour), description=f"**Now:** [{player.current.title}]({player.current.uri}) `{n_dur}` {emoji}{qlist}")
+            embed.set_footer(text=f"Page {page} of {pages} | Shuffle: {shuf}")
+            embed.timestamp = datetime.datetime.utcnow()
+            await client.say(embed=embed)
 	
 @client.command(pass_context=True, no_pm=True)
 async def help(ctx):
