@@ -64,7 +64,6 @@ async def ping(ctx):
 async def join(ctx):
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
-    await client.say('Connected to voice channel: **[' + str(channel) + ']**')
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully connected to voice channel:", value=channel)
     await client.say(embed=embed)
@@ -75,7 +74,6 @@ async def leave(ctx):
     channel = ctx.message.author.voice.voice_channel
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
-    await client.say("Successfully disconnected from ***[{}]***".format(channel))
     embed = discord.Embed(description=" ")
     embed.add_field(name="Successfully disconnected from:", value=channel)
     await client.say(embed=embed)
