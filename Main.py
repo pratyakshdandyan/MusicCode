@@ -100,7 +100,7 @@ async def play(ctx, *, name):
 async def queue(ctx):
 	id = ctx.message.server.id
 	players[id].queue()
-	await client.say("```There are currently {} audios in queue```".format(len(players)))```
+	await client.say("```There are currently {} audios in queue```".format(len(players)))
 
 @client.command(pass_context=True)
 async def resume(ctx):
