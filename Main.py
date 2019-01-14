@@ -32,18 +32,6 @@ async def on_ready():
 	
 @client.event
 async def on_message(message):
-  if message.content == 'm.stop':
-      serverid = message.server.id
-      players[serverid].stop()
-      await client.send_message(message.channel, "Player stopped")
-  if message.content == 'm.pause':
-      serverid = message.server.id
-      players[serverid].pause()
-      await client.send_message(message.channel, "Player paused")
-  if message.content == 'm.resume':
-      serverid = message.server.id
-      players[serverid].resume()
-      await client.send_message(message.channel, "Player resumed")
   if message.content.startswith('m.play '):
       author = message.author
       name = message.content.replace("m.play ", '')                 
@@ -77,6 +65,9 @@ async def join(ctx):
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
     await client.say('Connected to voice channel: **[' + str(channel) + ']**')
+    embed = discord.Embed(description=" ")
+    embed.add_field(name="Successfully connected to voice channel:", value=channel)
+    await client.say(embed=embed)
 	
 @client.command(pass_context=True, no_pm=True)
 async def leave(ctx):
@@ -85,6 +76,36 @@ async def leave(ctx):
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
     await client.say("Successfully disconnected from ***[{}]***".format(channel))
+    embed = discord.Embed(description=" ")
+    embed.add_field(name="Successfully disconnected from:", value=channel)
+    await client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def pause(ctx):
+    author = ctx.message.author
+    id = ctx.message.server.id
+    players[id].pause()
+    embed = discord.Embed(description=" ")
+    embed.add_field(name="Player Paused", value=f"Requested by {ctx.message.author.name}")
+    await client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def stop(ctx):
+    author = ctx.message.author
+    id = ctx.message.server.id
+    players[id].stop()
+    embed = discord.Embed(description=" ")
+    embed.add_field(name="Player Stopped", value=f"Requested by {ctx.message.author.name}")
+    await client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def resume(ctx):
+    author = ctx.message.author
+    id = ctx.message.server.id
+    players[id].resume()
+    embed = discord.Embed(description=" ")
+    embed.add_field(name="Player Resumed", value=f"Requested by {ctx.message.author.name}")
+    await client.say(embed=embed)
 
 @client.command(no_pm=True)
 async def credits():
@@ -98,6 +119,8 @@ async def help(ctx):
 	embed.add_field(name="m.leave", value="make the bot leave the voice channel")
 	embed.add_field(name="m.play", value="please be careful when using this command it will break if theres music playing.")
 	embed.add_field(name="m.stop", value="to stop the music from playing")
+	embed.add_field(name="m.pause", value="to pause the playing music")
+	embed.add_field(name="m.resume", value="to resume the music")
 	embed.add_field(name="m.credits", value="shows who helped me with this bot")
 	embed.add_field(name="m.ping", value="get bot's ping time")
 	await client.say(embed=embed)
