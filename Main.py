@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import asyncio
 import requests, bs4
-from itertools import cycle
 import os
 import time
 import youtube_dl
@@ -20,17 +19,6 @@ async def on_ready():
 	print("User name:", client.user.name)
 	print("User id:", client.user.id)
 	print('---------------')
-	
-
-@client.event
-async def on_message(message):
-	if message.content.startswith('m.help'):
-		embed = discord.Embed(colour=user.colour)
-		embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
-		embed.add_field(name="Credits:", value="m.credits")
-		embed.add_field(name="Other commands:", value="m.ping")
-		await client.send_message(message.channel, embed=embed)
-	await client.process_commands(message)
 
 @client.command(pass_context=True, no_pm=True)
 async def ping(ctx):
@@ -107,6 +95,15 @@ async def resume(ctx):
     embed = discord.Embed(description=" ")
     embed.add_field(name="Player Resumed", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
+	
+@client.command(pass_context=True)
+async def help(ctx):
+	user = ctx.message.author
+	embed = discord.Embed(colour=user.colour)
+	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
+	embed.add_field(name="Credits:", value="m.credits")
+	embed.add_field(name="Other commands:", value="m.ping")
+	await client.say(embed=embed)
 
 @client.command(no_pm=True)
 async def credits():
