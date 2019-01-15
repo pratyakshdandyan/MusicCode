@@ -20,6 +20,17 @@ async def on_ready():
 	print("User name:", client.user.name)
 	print("User id:", client.user.id)
 	print('---------------')
+	
+
+@client.event
+async def on_message(message):
+	if message.content.startswith('m.help'):
+		embed=discord.Embed(description=" ", color=0x000000)
+		embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
+		embed.add_field(name="Credits:", value="m.credits")
+		embed.add_field(name="Other commands:", value="m.ping")
+		await client.send_message(message.channel, embed=embed)
+	await client.process_commands(message)
 
 @client.command(pass_context=True, no_pm=True)
 async def ping(ctx):
@@ -77,6 +88,7 @@ async def _play(ctx, *, name):
 	title = (a[0]['title'])
 	a0 = [ x for x in div[0].find_all('a') if x.has_attr('title') ][0]
 	url = ('http://www.youtube.com'+a0['href'])
+	delmsg = await client.send_message(message.channel, 'Searching... ** >> ' + title + '**')
 	server = ctx.message.server
 	voice_client = client.voice_client_in(server)
 	player = await voice_client.create_ytdl_player(url)
@@ -119,18 +131,5 @@ async def eval_error(error, ctx):
 	if isinstance(error, discord.ext.commands.errors.CheckFailure):
 		text = "Sorry {}, You can't use this command only the bot owner can do this.".format(ctx.message.author.mention)
 		await client.send_message(ctx.message.channel, text)
-	
-@client.command(pass_context=True, no_pm=True)
-async def help(ctx):
-	embed = discord.Embed(title="Help section", description=" ", color=0xFFFF)
-	embed.add_field(name="m.join", value="make the bot join voice channel")
-	embed.add_field(name="m.leave", value="make the bot leave the voice channel")
-	embed.add_field(name="m.play", value="please be careful when using this command it will break if theres music playing.")
-	embed.add_field(name="m.stop", value="to stop the music from playing")
-	embed.add_field(name="m.pause", value="to pause the playing music")
-	embed.add_field(name="m.resume", value="to resume the music")
-	embed.add_field(name="m.credits", value="shows who helped me with this bot")
-	embed.add_field(name="m.ping", value="get bot's ping time")
-	await client.say(embed=embed)
 	
 client.run(os.environ['BOT_TOKEN'])
