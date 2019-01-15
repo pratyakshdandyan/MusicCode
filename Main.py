@@ -115,6 +115,7 @@ async def help(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(colour=user.colour)
 	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
+	embed.add_field(name="Credits:", value="m.credits")
 	embed.add_field(name="Other commands:", value="m.ping")
 	await client.say(embed=embed)
 
