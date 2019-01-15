@@ -8,6 +8,8 @@ import youtube_dl
 import inspect
 from discord import opus
 
+start_time = time.time()
+
 client = commands.Bot(command_prefix=("m."))
 client.remove_command("help")
 
@@ -95,6 +97,17 @@ async def resume(ctx):
     embed = discord.Embed(description=" ")
     embed.add_field(name="Player Resumed", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
+	
+@client.command()
+async def stats():
+	servers = list(client.servers)
+	current_time = time.time()
+	difference = int(round(current_time - start_time))
+	text = str(datetime.timedelta(seconds=difference))
+	embed = discord.Embed(title="Servers:", description=f"{str(len(servers))}", color=0xFFFF)
+	embed.add_field(name="Users:", value=f"{str(len(set(client.get_all_members())))}")
+	embed.add_field(name="Uptime:", value=f"{text}")
+	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
 async def help(ctx):
