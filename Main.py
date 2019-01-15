@@ -25,7 +25,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
 	if message.content.startswith('m.help'):
-		embed=discord.Embed(description=" ", color=0x000000)
+		embed = discord.Embed(colour=user.colour)
 		embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
 		embed.add_field(name="Credits:", value="m.credits")
 		embed.add_field(name="Other commands:", value="m.ping")
