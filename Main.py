@@ -32,43 +32,46 @@ async def ping(ctx):
     
 @client.command(name="join", pass_context=True, no_pm=True)
 async def _join(ctx):
+    author = ctx.message.author
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
-    embed = discord.Embed(description=" ")
+    embed = discord.Embed(colour=user.colour)
     embed.add_field(name="Successfully connected to voice channel:", value=channel)
     await client.say(embed=embed)
 	
 @client.command(name="leave", pass_context=True, no_pm=True)
 async def _leave(ctx):
+    user = ctx.message.author
     server = ctx.message.server
     channel = ctx.message.author.voice.voice_channel
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
-    embed = discord.Embed(description=" ")
+    embed = discord.Embed(colour=user.colour)
     embed.add_field(name="Successfully disconnected from:", value=channel)
     await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def pause(ctx):
-    author = ctx.message.author
+    user = ctx.message.author
     id = ctx.message.server.id
     players[id].pause()
-    embed = discord.Embed(description=" ")
+    embed = discord.Embed(colour=user.colour)
     embed.add_field(name="Player Paused", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def stop(ctx):
-    author = ctx.message.author
+    user = ctx.message.author
     id = ctx.message.server.id
     players[id].stop()
-    embed = discord.Embed(description=" ")
+    embed = discord.Embed(colour=user.colour)
     embed.add_field(name="Player Stopped", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
 @client.command(name="play", pass_context=True)
 async def _play(ctx, *, name):
 	author = ctx.message.author
+	user = ctx.message.author
 	name = ctx.message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
 	text = requests.get(fullcontent).text
@@ -86,16 +89,16 @@ async def _play(ctx, *, name):
 	players[server.id] = player
 	print("User: {} From Server: {} is playing {}".format(author, server, title))
 	player.start()
-	embed = discord.Embed(description=" ")
+	embed = discord.Embed(colour=user.colour)
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def resume(ctx):
-    author = ctx.message.author
+    user = ctx.message.author
     id = ctx.message.server.id
     players[id].resume()
-    embed = discord.Embed(description=" ")
+    embed = discord.Embed(colour=user.colour)
     embed.add_field(name="Player Resumed", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
