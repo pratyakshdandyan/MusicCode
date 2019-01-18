@@ -32,7 +32,7 @@ async def ping(ctx):
     
 @client.command(name="join", pass_context=True, no_pm=True)
 async def _join(ctx):
-    author = ctx.message.author
+    user = ctx.message.author
     channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
     embed = discord.Embed(colour=user.colour)
@@ -71,7 +71,6 @@ async def stop(ctx):
 @client.command(name="play", pass_context=True)
 async def _play(ctx, *, name):
 	author = ctx.message.author
-	user = ctx.message.author
 	name = ctx.message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
 	text = requests.get(fullcontent).text
@@ -89,7 +88,7 @@ async def _play(ctx, *, name):
 	players[server.id] = player
 	print("User: {} From Server: {} is playing {}".format(author, server, title))
 	player.start()
-	embed = discord.Embed(colour=user.colour)
+	embed = discord.Embed(description=" ")
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
 
