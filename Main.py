@@ -113,6 +113,19 @@ async def stats():
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
+async def info(ctx):
+	author = ctx.message.author
+	servers = list(client.servers)
+	embed = discord.Embed(title="Music Bot", color=0xFFFF)
+	embed.add_field(name="Servers:", value=f"{str(len(servers))}")
+	embed.add_field(name="Users:", value=f"{str(len(set(client.get_all_members())))}")
+	embed.add_field(name="Invite", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=489033991769423873&permissions=36716800&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D8%26scope%3Dbot&scope=bot)")
+	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/ccAuKgV)")
+	embed.set_thumbnail(url=client.user.avatar_url)
+	embed.set_footer(text=" | {}".format(client.user.name), icon_url=client.user.avatar_url)
+	await client.say(embed=embed)
+	
+@client.command(pass_context=True)
 async def help(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(colour=user.colour)
