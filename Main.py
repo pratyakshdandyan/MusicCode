@@ -112,7 +112,7 @@ async def stats():
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
-async def info(ctx):
+async def support(ctx):
 	author = ctx.message.author
 	servers = list(client.servers)
 	embed = discord.Embed(title="Music Bot", color=0xFFFF)
@@ -130,7 +130,7 @@ async def help(ctx):
 	embed = discord.Embed(colour=user.colour)
 	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
 	embed.add_field(name="Credits:", value="m.credits")
-	embed.add_field(name="Other commands:", value="m.ping")
+	embed.add_field(name="Other commands:", value="m.ping | m.support")
 	await client.say(embed=embed)
 
 @client.command(no_pm=True)
