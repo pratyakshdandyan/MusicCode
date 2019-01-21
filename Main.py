@@ -101,6 +101,8 @@ async def _play(ctx, *, name):
 @client.command(pass_context=True)
 async def queue(ctx, *, name):
 	server = ctx.message.server
+	name = ctx.message.content.replace("m.play ", '')
+	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
 	voice_client = client.voice_client_in(server)
 	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
 	
