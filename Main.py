@@ -15,7 +15,7 @@ client = commands.Bot(command_prefix=("m."))
 client.remove_command("help")
 
 players = {}
-queue = {}
+queues = {}
 
 def check_queue(id):
 	if queues[id] != []:
