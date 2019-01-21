@@ -75,6 +75,15 @@ async def stop(ctx):
     embed.add_field(name="Player Stopped", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
+@client.command(pass_context=True)
+async def skip(ctx):
+	user = ctx.message.author
+	id = ctx.message.server.id
+	players[id].skip()
+	embed = discord.Embed(color=user.colour)
+	embed.add_field(name="Player Skipped", value=f"Requested by {ctx.message.author.name}")
+	await client.say(embed=embed)
+	
 @client.command(name="play", pass_context=True)
 async def _play(ctx, *, name):
 	author = ctx.message.author
@@ -111,7 +120,6 @@ async def queue(ctx, *, name):
 	a0 = [ x for x in div[0].find_all('a') if x.has_attr('title') ][0]
 	url = ('http://www.youtube.com'+a0['href'])
 	server = ctx.message.server
-	server = ctx.message.server
 	voice_client = client.voice_client_in(server)
 	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
 	
@@ -119,9 +127,9 @@ async def queue(ctx, *, name):
 		queues[server.id].append(player)
 	else:
 		queues[server.id] = [player]
-	embed = discord.Embed(description=" ")
-	embed.add_field(name="video have been added", value="to queue")
-	await client.say(embed=embed)
+		embed = discord.Embed(description=" ")
+		embed.add_field(name="video have been added", value="to queue")
+		await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def resume(ctx):
