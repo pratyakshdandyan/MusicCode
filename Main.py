@@ -14,7 +14,14 @@ start_time = time.time()
 client = commands.Bot(command_prefix=("m."))
 client.remove_command("help")
 
-players = {}	
+players = {}
+queue = {}
+
+def check_queue(id):
+	if queues[id] != []:
+		player = queues[id].pop(0)
+		players[id] = player
+		player.start()
 
 @client.event 
 async def on_ready():
@@ -83,12 +90,26 @@ async def _play(ctx, *, name):
 	url = ('http://www.youtube.com'+a0['href'])
 	server = ctx.message.server
 	voice_client = client.voice_client_in(server)
-	player = await voice_client.create_ytdl_player(url)
+	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
 	players[server.id] = player
 	print("User: {} From Server: {} is playing {}".format(author, server, title))
 	player.start()
 	embed = discord.Embed(description=" ")
 	embed.add_field(name="Now Playing", value=title)
+	await client.say(embed=embed)
+	
+@client.command(pass_context=True)
+async def queue(ctx, *, name):
+	server = ctx.message.server
+	voice_client = client.voice_client_in(server)
+	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
+	
+	if server.id in queues:
+		queues[server.id].append(player)
+	else:
+		queues[server.id] = [player]
+	embed = discord.Embed(description=" ")
+	embed.add_field(name="video have been added", value="to queue")
 	await client.say(embed=embed)
 
 @client.command(pass_context=True)
@@ -116,8 +137,6 @@ async def support(ctx):
 	user = ctx.message.author
 	servers = list(client.servers)
 	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Servers:", value=f"{str(len(servers))}")
-	embed.add_field(name="Users:", value=f"{str(len(set(client.get_all_members())))}")
 	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/ccAuKgV)")
 	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/489033991769423873/5215f2354e333ef5ca21124d45f70efd.png?size=1024")
 	embed.set_footer(text=" | {}".format(client.user.name), icon_url="https://cdn.discordapp.com/avatars/489033991769423873/5215f2354e333ef5ca21124d45f70efd.png?size=1024")
@@ -136,7 +155,7 @@ async def help(ctx):
 	embed = discord.Embed(colour=user.colour)
 	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
 	embed.add_field(name="Credits:", value="m.credits")
-	embed.add_field(name="Other commands:", value="m.ping | m.support")
+	embed.add_field(name="Other commands:", value="m.ping | m.support | m.stats")
 	await client.say(embed=embed)
 
 @client.command(no_pm=True)
