@@ -67,12 +67,12 @@ async def pause(ctx):
     await client.say(embed=embed)
 
 @client.command(pass_context=True)
-async def stop(ctx):
+async def skip(ctx):
     user = ctx.message.author
     id = ctx.message.server.id
     players[id].stop()
     embed = discord.Embed(colour=user.colour)
-    embed.add_field(name="Player Stopped", value=f"Requested by {ctx.message.author.name}")
+    embed.add_field(name="Player Skipped", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
 @client.command(name="play", pass_context=True)
@@ -161,7 +161,7 @@ async def invite(ctx):
 async def help(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(colour=user.colour)
-	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.stop", inline=True)
+	embed.add_field(name="Music commands:", value="m.join | m.play | m.leave | m.pause | m.resume | m.skip | m.queue", inline=True)
 	embed.add_field(name="Credits:", value="m.credits")
 	embed.add_field(name="Other commands:", value="m.ping | m.support | m.stats")
 	await client.say(embed=embed)
