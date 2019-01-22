@@ -118,7 +118,9 @@ async def queue(ctx, *, name):
 		queues[server.id].append(player)
 	else:
 		queues[server.id] = [player]
-	await client.say("Video queued")
+	embed = discord.Embed(description=" ")
+	embed.add_field(name="Video queued", value=title)
+	await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def resume(ctx):
