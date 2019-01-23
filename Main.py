@@ -167,6 +167,10 @@ async def help(ctx):
 	embed.add_field(name="Credits:", value="m.credits")
 	embed.add_field(name="Other commands:", value="m.ping | m.support | m.stats | m.invite")
 	await client.say(embed=embed)
+	
+@client.command()
+async def test():
+	await client.say("test")
 
 @client.command(no_pm=True)
 async def credits():
