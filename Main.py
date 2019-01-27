@@ -98,22 +98,6 @@ async def _play(ctx, *, name):
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
 	
-@client.command(pass_context=True)
-async def queue(ctx, *, name):
-	name = ctx.message.content.replace("m.queue ", '')
-	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
-	text = requests.get(fullcontent).text
-	soup = bs4.BeautifulSoup(text, 'html.parser')
-	img = soup.find_all('img')
-	div = [ d for d in soup.find_all('div') if d.has_attr('class') and 'yt-lockup-dismissable' in d['class']]
-	a = [ x for x in div[0].find_all('a') if x.has_attr('title') ]
-	title = (a[0]['title'])
-	a0 = [ x for x in div[0].find_all('a') if x.has_attr('title') ][0]
-	url = ('http://www.youtube.com'+a0['href'])
-	server = ctx.message.server
-	voice_client = client.voice_client_in(server)
-	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
-	
 	if server.id in queues:
 		queues[server.id].append(player)
 	else:
