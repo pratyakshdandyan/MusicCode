@@ -155,7 +155,7 @@ async def support(ctx):
 async def invite(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Bot Link", value=f"[Link](https://discordapp.com/oauth2/authorize?client_id=489033991769423873&permissions=36784128&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D36782080%26redirect_uri%3Dhttps%253A%252F%252Fdiscordapp.com%252Fapi%252Foauth2%252Fauthorize%253Fclien&scope=bot)")
+	embed.add_field(name="Bot Link", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=489033991769423873&permissions=36785152&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D36784128%26redirect_uri%3Dhttps%253A%252F%252Fdiscordapp.com%252Fapi%252Foauth2%252Fauthorize%253Fclient_id&scope=bot)")
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
