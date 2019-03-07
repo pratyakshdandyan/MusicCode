@@ -180,12 +180,15 @@ async def support(ctx):
 	embed.set_thumbnail(url="https://cdn.discordapp.com/icons/455508238784266263/689f34285d678398783054b161168bd5.jpg")
 	await client.say(embed=embed)
 	
-@client.command(pass_context=True)
-async def invite(ctx):
-	user = ctx.message.author
-	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Bot Link", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=534720403004719150&permissions=36785152&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D36784128%26redirect_uri%3Dhttps%253A%252F%252Fdiscordapp.com%252Fapi%252Foauth2%252Fauthorize%253Fclient_id&scope=bot)")
-	await client.say(embed=embed)
+
+	
+@client.command()
+async def invite():
+  	"""Bot Invite"""
+  	await client.say("\U0001f44dhttps://cdn.dribbble.com/users/4874/screenshots/1776423/inboxiconanimation_30.gif Check DMs For Information")
+  	await client.whisper("Add me with this link {}".format(discord.utils.oauth_url(client.user.id)))	
+	
+	
 	
 @client.command(pass_context=True)
 async def help(ctx):
