@@ -69,7 +69,7 @@ async def on_command_error(con,error):
 
 async def queue_songs(con, skip, clear):
     if clear == True:
-        await bot.voice_client_in(con.message.server).disconnect()
+        await client.voice_client_in(con.message.server).disconnect()
         player_status[con.message.server.id] = False
         song_names[con.message.server.id].clear()
 
@@ -88,7 +88,7 @@ async def queue_songs(con, skip, clear):
                                ['thumbnails']['default']['url'])
             pack.add_field(name="Requested by:", value=con.message.author.name)
 
-            song = await bot.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: await after_song(con, False, False))
+            song = await client.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: await after_song(con, False, False))
             servers_songs[con.message.server.id] = song
             servers_songs[con.message.server.id].start()
             await client.delete_message(now_playing[con.message.server.id])
