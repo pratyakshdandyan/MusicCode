@@ -121,7 +121,6 @@ async def _play(ctx, *, name):
 	embed = discord.Embed(description=" ")
 	embed.set_thumbnail(url=r['items'][0]['snippet']['thumbnails']['default']['url'])
 	embed.add_field(name="Now Playing", value=title)
-        embed.add_field(name="Requested by:", value=con.message.author.name)
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
