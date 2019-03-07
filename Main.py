@@ -118,8 +118,8 @@ async def _play(ctx, *, name):
 	players[server.id] = player
 	print("User: {} From Server: {} is playing {}".format(author, server, title))
 	player.start()
-	embed = discord.Embed(description=" ")
-	embed.set_thumbnail(url=r['items'][0]['snippet']['thumbnails']['default']['url'])
+	embed = discord.Embed(description="**__Song Play By MUZICAL DOCTORB__**")
+	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/489033991769423873/5215f2354e333ef5ca21124d45f70efd.png?size=1024")
 	embed.add_field(name="Now Playing", value=title)
 	await client.say(embed=embed)
 	
