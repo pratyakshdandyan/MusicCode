@@ -119,7 +119,9 @@ async def _play(ctx, *, name):
 	print("User: {} From Server: {} is playing {}".format(author, server, title))
 	player.start()
 	embed = discord.Embed(description=" ")
+	embed.set_thumbnail(url=r['items'][0]['snippet']['thumbnails']['default']['url'])
 	embed.add_field(name="Now Playing", value=title)
+        embed.add_field(name="Requested by:", value=con.message.author.name)
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
@@ -171,15 +173,15 @@ async def support(ctx):
 	user = ctx.message.author
 	servers = list(client.servers)
 	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/ccAuKgV)")
-	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/489033991769423873/5215f2354e333ef5ca21124d45f70efd.png?size=1024")
+	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/Eagbjbj)")
+	embed.set_thumbnail(url="https://cdn.discordapp.com/icons/455508238784266263/689f34285d678398783054b161168bd5.jpg")
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
 async def invite(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Bot Link", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=489033991769423873&permissions=36785152&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D36784128%26redirect_uri%3Dhttps%253A%252F%252Fdiscordapp.com%252Fapi%252Foauth2%252Fauthorize%253Fclient_id&scope=bot)")
+	embed.add_field(name="Bot Link", value=f"[Link](https://discordapp.com/api/oauth2/authorize?client_id=534720403004719150&permissions=36785152&redirect_uri=https%3A%2F%2Fdiscordapp.com%2Foauth2%2Fauthorize%3Fclient_id%3D489033991769423873%26permissions%3D36784128%26redirect_uri%3Dhttps%253A%252F%252Fdiscordapp.com%252Fapi%252Foauth2%252Fauthorize%253Fclient_id&scope=bot)")
 	await client.say(embed=embed)
 	
 @client.command(pass_context=True)
@@ -194,10 +196,10 @@ async def help(ctx):
 @client.command(no_pm=True)
 async def credits():
 	"""credits who helped me"""
-	await client.say('iHoverZz#2321 helped me with this music bot')
+	await client.say('Imran helped me with this music bot')
 	
 def user_is_me(ctx):
-	return ctx.message.author.id == "277983178914922497"
+	return ctx.message.author.id == "455500545587675156"
 
 @client.command(name='eval', pass_context=True)
 @commands.check(user_is_me)
