@@ -185,7 +185,7 @@ async def support(ctx):
 @client.command()
 async def invite():
   	"""Bot Invite"""
-  	await client.say("\U0001f44dhttps://cdn.dribbble.com/users/4874/screenshots/1776423/inboxiconanimation_30.gif Check DMs For Information")
+  	await client.say("📧Check DMs For Information✅")
   	await client.whisper("Add me with this link {}".format(discord.utils.oauth_url(client.user.id)))	
 	
 	
