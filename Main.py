@@ -60,6 +60,53 @@ async def ping(ctx):
     pingms = await client.say("Pinging...")
     ping = (time.time() - pingtime) * 1000
     await client.edit_message(pingms, "Pong! :ping_pong: ping time is `%dms`" % ping)
+	
+	
+@client.event
+async def on_command_error(con,error):
+    pass
+
+
+async def queue_songs(con, skip, clear):
+    if clear == True:
+        await bot.voice_client_in(con.message.server).disconnect()
+        player_status[con.message.server.id] = False
+        song_names[con.message.server.id].clear()
+
+    if clear == False:
+        if skip == True:
+            servers_songs[con.message.server.id].pause()
+
+        if len(song_names[con.message.server.id]) == 0:
+            servers_songs[con.message.server.id] = None
+
+        if len(song_names[con.message.server.id]) != 0:
+            r = rq.Session().get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={}&key={}'.format(song_names[con.message.server.id][0]),youtube_api).json()
+            pack = discord.Embed(title=r['items'][0]['snippet']['title'],
+                                 url="https://www.youtube.com/watch?v={}".format(r['items'][0]['id']['videoId']))
+            pack.set_thumbnail(url=r['items'][0]['snippet']
+                               ['thumbnails']['default']['url'])
+            pack.add_field(name="Requested by:", value=con.message.author.name)
+
+            song = await bot.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: await after_song(con, False, False))
+            servers_songs[con.message.server.id] = song
+            servers_songs[con.message.server.id].start()
+            await client.delete_message(now_playing[con.message.server.id])
+            msg = await client.send_message(con.message.channel, embed=pack)
+            now_playing[con.message.server.id] = msg
+
+            if len(song_names[con.message.server.id]) >= 1:
+                song_names[con.message.server.id].pop(0)
+
+        if len(song_names[con.message.server.id]) == 0 and servers_songs[con.message.server.id] == None:
+            player_status[con.message.server.id] = False
+
+
+async def after_song(con, skip, clear):
+    await queue_songs(con, skip, clear)	
+	
+	
+	
     
 @client.command(name="join", pass_context=True, no_pm=True)
 async def _join(ctx):
@@ -99,29 +146,40 @@ async def skip(ctx):
     embed.add_field(name="Player Skipped", value=f"Requested by {ctx.message.author.name}")
     await client.say(embed=embed)
 	
-@client.command(name="play", pass_context=True)
-async def _play(ctx, *, name):
-	author = ctx.message.author
-	name = ctx.message.content.replace("m.play ", '')
-	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
-	text = requests.get(fullcontent).text
-	soup = bs4.BeautifulSoup(text, 'html.parser')
-	img = soup.find_all('img')
-	div = [ d for d in soup.find_all('div') if d.has_attr('class') and 'yt-lockup-dismissable' in d['class']]
-	a = [ x for x in div[0].find_all('a') if x.has_attr('title') ]
-	title = (a[0]['title'])
-	a0 = [ x for x in div[0].find_all('a') if x.has_attr('title') ][0]
-	url = ('http://www.youtube.com'+a0['href'])
-	server = ctx.message.server
-	voice_client = client.voice_client_in(server)
-	player = await voice_client.create_ytdl_player(url, after=lambda: check_queue(server.id))
-	players[server.id] = player
-	print("User: {} From Server: {} is playing {}".format(author, server, title))
-	player.start()
-	embed = discord.Embed(description="**__Song Play By MUZICAL DOCTORB__**")
-	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/489033991769423873/5215f2354e333ef5ca21124d45f70efd.png?size=1024")
-	embed.add_field(name="Now Playing", value=title)
-	await client.say(embed=embed)
+@client.command(pass_context=True)
+async def play(con, *, url):
+    """PLAY THE GIVEN SONG AND QUEUE IT IF THERE IS CURRENTLY SOGN PLAYING"""
+    if con.message.channel.is_private == True:
+        await client.send_message(con.message.channel, "**You must be in a `server text channel` to use this command**")
+
+    if con.message.channel.is_private == False: #command is used in a server
+        rq_channel[con.message.server.id]=con.message.channel.id
+        if bot.is_voice_connected(con.message.server) == False:
+            await client.join_voice_channel(con.message.author.voice.voice_channel)
+
+        if bot.is_voice_connected(con.message.server) == True:
+            if player_status[con.message.server.id] == True:
+                song_names[con.message.server.id].append(url)
+                r = rq.Session().get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={}&key={}'.format(url,youtube_api)).json()
+                await bot.send_message(con.message.channel, "**Song `{}` Queued**".format(r['items'][0]['snippet']['title']))
+
+            if player_status[con.message.server.id] == False:
+                player_status[con.message.server.id] = True
+                song_names[con.message.server.id].append(url)
+                song = await bot.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: await after_song(con, False, False))
+                servers_songs[con.message.server.id] = song
+                servers_songs[con.message.server.id].start()
+                r = rq.Session().get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={}&key={}'.format(url,youtube_api)).json()
+                pack = discord.Embed(title=r['items'][0]['snippet']['title'],
+                                     url="https://www.youtube.com/watch?v={}".format(r['items'][0]['id']['videoId']))
+                pack.set_thumbnail(
+                    url=r['items'][0]['snippet']['thumbnails']['default']['url'])
+                pack.add_field(name="Requested by:",
+                               value=con.message.author.name)
+                msg = await bot.send_message(con.message.channel, embed=pack)
+                now_playing[con.message.server.id] = msg
+                song_names[con.message.server.id].pop(0)
+
 	
 @client.command(pass_context=True)
 async def queue(ctx, *, name):
