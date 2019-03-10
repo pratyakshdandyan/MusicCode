@@ -11,7 +11,7 @@ from discord import opus
 
 start_time = time.time()
 
-client = commands.Bot(command_prefix=("b."))
+client = commands.Bot(command_prefix=("m."))
 songs = asyncio.Queue()
 play_next_song = asyncio.Event()
 client.remove_command("help")
