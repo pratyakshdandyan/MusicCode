@@ -65,7 +65,7 @@ async def ping(ctx):
 	
 	
     
-@client.command(name="play", pass_context=True, no_pm=True)
+@client.command(name="join", pass_context=True, no_pm=True)
 async def _join(ctx):
     user = ctx.message.author
     channel = ctx.message.author.voice.voice_channel
