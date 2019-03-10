@@ -105,7 +105,6 @@ async def skip(ctx):
 	
 @client.command(name="play", pass_context=True)
 async def _play(ctx, *, name):
-	await client.join_voice_channel(channel)
 	author = ctx.message.author
 	name = ctx.message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
