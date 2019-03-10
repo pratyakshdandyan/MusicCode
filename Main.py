@@ -105,6 +105,7 @@ async def skip(ctx):
 	
 @client.command(name="play", pass_context=True)
 async def _play(ctx, *, name):
+	await client.join_voice_channel(channel)
 	author = ctx.message.author
 	name = ctx.message.content.replace("m.play ", '')
 	fullcontent = ('http://www.youtube.com/results?search_query=' + name)
@@ -177,7 +178,7 @@ async def support(ctx):
 	servers = list(client.servers)
 	embed = discord.Embed(color=user.colour)
 	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/Em6GAWh)")
-	embed.set_thumbnail(url="https://cdn.discordapp.com/icons/455508238784266263/689f34285d678398783054b161168bd5.jpg")
+	embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/553968820834795545/4bf6a33e47c42fd44d10e77725549a2c.webp?size=1024")
 	await client.say(embed=embed)
 	
 
