@@ -194,15 +194,15 @@ async def invite():
 async def help(ctx):
 	user = ctx.message.author
 	embed = discord.Embed(colour=user.colour)
-	embed.add_field(name="Music commands:", value="b.play | b.join | b.leave | b.pause | b.resume | b.skip | b.queue", inline=True)
-	embed.add_field(name="Credits:", value="b.credits")
-	embed.add_field(name="Other commands:", value="b.ping | b.support | b.stats | b.invite")
+	embed.add_field(name="Music commands:", value="m.play | m.join | m.leave | m.pause | m.resume | m.skip | m.queue", inline=True)
+	embed.add_field(name="Credits:", value="m.credits")
+	embed.add_field(name="Other commands:", value="m.ping | m.support | m.stats | m.invite")
 	await client.say(embed=embed)
 
 @client.command(no_pm=True)
 async def credits():
 	"""credits who helped me"""
-	await client.say('Imran helped me with this music bot')
+	await client.say('Owner is Pratyaksh but Imran helped me with this music bot')
 	
 def user_is_me(ctx):
 	return ctx.message.author.id == "455500545587675156"
