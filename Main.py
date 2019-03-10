@@ -176,7 +176,7 @@ async def support(ctx):
 	user = ctx.message.author
 	servers = list(client.servers)
 	embed = discord.Embed(color=user.colour)
-	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/Eagbjbj)")
+	embed.add_field(name="Support server", value=f"[Link](https://discord.gg/Em6GAWh)")
 	embed.set_thumbnail(url="https://cdn.discordapp.com/icons/455508238784266263/689f34285d678398783054b161168bd5.jpg")
 	await client.say(embed=embed)
 	
